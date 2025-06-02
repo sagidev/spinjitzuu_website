@@ -1,0 +1,608 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinjitzuu | #1 Undetectable League of Legends Script & Orbwalker</title>
+    <meta name="description" content="Spinjitzuu: The ultimate undetectable League of Legends script and orbwalker. Features AI targeting, customizable orbwalker, and Vanguard bypass. Buy now on Shoppy!">
+    <meta name="keywords" content="League of Legends script, LoL orbwalker, League of Legends external cheat, undetectable LoL script, LoL cheat, Spinjitzuu, Vanguard bypass, Arena mode script">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Spinjitzuu Team">
+    <meta property="og:title" content="Spinjitzuu | #1 Undetectable League of Legends Script & Orbwalker">
+    <meta property="og:description" content="Maximize your LoL gameplay with Spinjitzuu's premium external cheat. Features AI targeting, customizable orbwalker, and Vanguard bypass. Buy now on Shoppy!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://spinjitzuu.com">
+    <meta property="og:image" content="https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt7f2b6a6a9a8a3c7f/5ef6c0f6b8e4f406b302cdbf/crime_city_twitch_splash.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Spinjitzuu | #1 Undetectable League of Legends Script">
+    <meta name="twitter:description" content="Dominate LoL with Spinjitzuu's undetectable script. AI targeting, orbwalker, and Vanguard bypass. Buy now on Shoppy!">
+    <!-- Load particles.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Particle background container */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: #0a0a0a;
+        }
+
+        nav {
+            background-color: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            animation: pulse 1s infinite;
+        }
+
+        /* Pulse animation for navbar links on hover */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 20px;
+            position: relative;
+            z-index: 1;
+            background-image: url('https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt7f2b6a6a9a8a3c7f/5ef6c0f6b8e4f406b302cdbf/crime_city_twitch_splash.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin-top: 60px;
+        }
+
+        /* Dark gradient overlay for the hero section */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9));
+            z-index: 0;
+        }
+
+        /* Subtle background shapes */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 0, 0, 0.3);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation: float 6s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        .hero .shape2 {
+            content: '';
+            position: absolute;
+            top: 70%;
+            right: 10%;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out alternate;
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #ff0000;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            animation: fadeInDown 1s ease-in-out;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            max-width: 900px;
+            margin: 0 auto 40px;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-in-out 0.3s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: linear-gradient(90deg, #ff0000, #cc0000);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.3em;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            animation: fadeIn 1s ease-in-out 0.6s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(90deg, #cc0000, #ff0000);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Keyframe animations for hero section */
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .features {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #ff0000;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+
+        .feature-card p {
+            color: #cccccc;
+        }
+
+        .pricing {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #141414;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ff0000;
+        }
+
+        .pricing p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #cccccc;
+        }
+
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            flex-wrap: wrap;
+        }
+
+        .pricing-card {
+            background-color: #1a1a1a;
+            padding: 30px 20px;
+            border-radius: 10px;
+            border: 1px solid #ff0000;
+            text-align: center;
+            width: 300px;
+            min-height: 400px;
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card.highlighted {
+            background-color: #2a2a2a;
+            border: 1px solid #ff0000;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.highlighted h3,
+        .pricing-card.highlighted .price,
+        .pricing-card.highlighted p {
+            color: #ffffff;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8em;
+            color: #ff0000;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .pricing-card .price {
+            font-size: 2em;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card p {
+            color: #cccccc;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card .cta-button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-top: auto;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            color: #cccccc;
+            border-top: 2px solid #ff0000;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                background-attachment: scroll;
+                margin-top: 50px;
+                padding: 80px 20px;
+            }
+
+            .hero h2 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            nav a {
+                margin: 0 10px;
+                font-size: 1em;
+            }
+
+            .pricing-card h3 {
+                font-size: 1.5em;
+            }
+
+            .pricing-card .price {
+                font-size: 1.8em;
+            }
+
+            .pricing-card {
+                min-height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle background -->
+    <div id="particles-js"></div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Spinjitzuu | #1 LoL Script</h2>
+            <p>Maximize your <strong>League of Legends</strong> gameplay with this premium external cheat, packed with cutting-edge features designed to give you the ultimate edge. Available now on Shoppy – bid fast to secure this undetectable, game-changing tool and dominate the Rift like never before!</p>
+            <a href="https://shoppy.gg/@sagidev" class="cta-button">Buy now on Shoppy</a>
+        </div>
+    </section>
+    <section class="features" id="features">
+        <div class="feature-card">
+            <h3>All Resolutions Supported</h3>
+            <p>Works flawlessly on any screen resolution. Whether you're gaming on a massive 4K monitor or a compact laptop, this cheat adapts perfectly to your setup for seamless performance.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Windows 10/11 Compatible</h3>
+            <p>Full support for Windows 10 and 11. No compatibility worries – this cheat runs smoothly on the latest Windows versions, ensuring you’re always ready to play.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Arena Mode Supported</h3>
+            <p>Dominate in Arena with features tailored for this fast-paced mode – perfect for climbing ranks or crushing opponents.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Customizable Orbwalker</h3>
+            <p>Fine-tune your orbwalker to kite like a pro, land last hits effortlessly, and outmaneuver enemies with personalized settings.</p>
+        </div>
+        <div class="feature-card">
+            <h3>AI-Target Selector</h3>
+            <p>Let the AI prioritize threats instantly – focus key champions or squishies with deadly accuracy, no manual input needed.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Web-Based Menu</h3>
+            <p>Adjust settings on-the-fly through a sleek web interface – no clunky software, just fast, intuitive control from any device.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Unique & Undetected Driver</h3>
+            <p>Powered by a one-of-a-kind driver that stays under Riot’s radar, keeping you safe from bans while you climb.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Vanguard Premium Bypass</h3>
+            <p>Advanced bypass tech ensures this cheat remains undetectable even against Vanguard, giving you worry-free dominance.</p>
+        </div>
+        <div class="feature-card">
+            <h3>No Performance Loss</h3>
+            <p>Enjoy smooth gameplay with zero performance drops, thanks to efficient data caching that minimizes lag and ensures consistent FPS.</p>
+        </div>
+    </section>
+    <section class="pricing" id="pricing">
+        <h2>Choose Your Spinjitzuu Plan</h2>
+        <p>Pick the package that suits your needs and dominate the Rift with unmatched precision and security. All plans are available on Shoppy – don’t miss out!</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Spinjitzuu Reborn</h3>
+                <div class="price">19.99€</div>
+                <p>The standard version of the script. Everything gameplay-wise works perfectly fine, with no drawbacks.</p>
+                <a href="https://shoppy.gg/product/SRtVk0v" class="cta-button">Buy Now</a>
+            </div>
+            <div class="pricing-card highlighted">
+                <h3>Spinjitzuu Reborn Plus</h3>
+                <div class="price">22.50€</div>
+                <p>Includes all standard features plus security addons that clean League’s system traces, ensuring worry-free usage.</p>
+                <a href="https://shoppy.gg/product/VxF7iti" class="cta-button">Buy Now</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Spinjitzuu Reborn Elite</h3>
+                <div class="price">24.99€</div>
+                <p>The most secure package with all Plus features and a private loader exclusive to premium users, updated with a unique .exe file.</p>
+                <a href="https://shoppy.gg/product/j1wxihW" class="cta-button">Buy Now</a>
+            </div>
+        </div>
+        <p>Join our community on <a href="https://discord.gg/spinjitzuu">Discord</a> for support and updates.</p>
+    </section>
+    <footer id="contact">
+        <p>© 2025 Spinjitzuu. All rights reserved. | <a href="mailto:support@spinjitzuu.com">Contact Us</a> | <a href="https://discord.gg/spinjitzuu">Join Discord</a></p>
+    </footer>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ff0000' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' } },
+                opacity: { value: 0.5, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 2, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
+
+        // Add scrolled class to navbar on scroll
+        window.addEventListener('scroll', function () {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Spinjitzuu League of Legends Script",
+        "description": "Spinjitzuu is a premium, undetectable League of Legends external script with customizable orbwalker, AI target selector, and Vanguard bypass. Available in Reborn (19.99€), Reborn Plus (22.50€), and Reborn Elite (24.99€) packages on Shoppy.",
+        "brand": {
+            "@type": "Brand",
+            "name": "Spinjitzuu"
+        },
+        "keywords": "League of Legends script, LoL orbwalker, external cheat, undetectable script, Vanguard bypass",
+        "offers": [
+            {
+                "@type": "Offer",
+                "name": "Spinjitzuu Reborn",
+                "price": "19.99",
+                "priceCurrency": "EUR",
+                "url": "https://shoppy.gg/product/SRtVk0v",
+                "availability": "https://schema.org/InStock"
+            },
+            {
+                "@type": "Offer",
+                "name": "Spinjitzuu Reborn Plus",
+                "price": "22.50",
+                "priceCurrency": "EUR",
+                "url": "https://shoppy.gg/product/VxF7iti",
+                "availability": "https://schema.org/InStock"
+            },
+            {
+                "@type": "Offer",
+                "name": "Spinjitzuu Reborn Elite",
+                "price": "24.99",
+                "priceCurrency": "EUR",
+                "url": "https://shoppy.gg/product/j1wxihW",
+                "availability": "https://schema.org/InStock"
+            }
+        ]
+    }
+    </script>
+</body>
+</html>
